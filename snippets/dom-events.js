@@ -16,11 +16,11 @@ var events = {
     var elem = arguments[0];
     var fn = arguments[1];
     var args = Array.prototype.slice.call(arguments, 2);
-    self.on(elem, callback, args);
-    callback = function callback(e) {
+    function callback(e) {
       fn(e);
-      self.off(elem, callback, args);
-    }
+      self.off.apply(self, [elem, callback].concat(args));
+    };
+    self.on.apply(self, [elem, callback].concat(args));
   },
 
   emit: function(element, name, bubbles, cancelable) {
