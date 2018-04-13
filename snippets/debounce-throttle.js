@@ -16,6 +16,19 @@ function throttle(fn, delay) {
   };
 }
 
+// https://evilmartians.com/chronicles/scroll-to-the-future-modern-javascript-css-scrolling-implementations
+function throttle(action) {
+  let isRunning = false;
+  return function() {
+    if (isRunning) return;
+    isRunning = true;
+    window.requestAnimationFrame(() => {
+      action();
+      isRunning = false;
+    });
+  }
+}
+
 
 /**
  * debounce
