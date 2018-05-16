@@ -6,7 +6,7 @@ function loadImage(image, callback) {
     instance.onload = function () {
       instance.onload = instance.onerror = null;
       typeof callback === 'function' && callback(null, instance);
-      resolve(image);
+      resolve(instance);
     };
 
     instance.onerror = function (e) {
