@@ -17,16 +17,24 @@ function throttle(fn, delay) {
 }
 
 // https://evilmartians.com/chronicles/scroll-to-the-future-modern-javascript-css-scrolling-implementations
-function throttle(action) {
-  let isRunning = false;
-  return function() {
-    if (isRunning) return;
-    isRunning = true;
-    window.requestAnimationFrame(() => {
-      action();
-      isRunning = false;
+function rafThrottle(fn) {
+  let requestId = null;
+
+  function throttled() {
+    if (requestId !== null) return;
+
+    requestId = requestAnimationFrame(() => {
+      fn.apply(this, arguments);
+      requestId = null;
     });
   }
+
+  throttled.cancel = () => {
+    cancelAnimationFrame(requestId);
+    requestId = null;
+  }
+  
+  return throttled;
 }
 
 // The debounce function receives our function as a parameter
